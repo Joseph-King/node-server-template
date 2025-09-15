@@ -1,0 +1,25 @@
+services:
+  opensearch-node1:
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch-node1
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node1
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - plugins.security.disabled=false
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=b3BlbnNlYXJjaAo=
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - os-data:/usr/share/opensearch/data
+    ports:
+      - 9200:9200
+      - 9600:9600
+
+volumes:
+  os-data:
+    driver: local

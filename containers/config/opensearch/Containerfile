@@ -1,0 +1,10 @@
+FROM opensearchproject/opensearch:latest
+
+ENV cluster.name=opensearch-cluster
+ENV node.name=node1
+ENV discovery.type=single-node
+ENV bootstrap.memory_lock=true
+ENV OPENSEARCH_JAVA_OPTS="-Xms512m -Xmx512m"
+ENV plugins.security.disabled=false
+
+EXPOSE 9200

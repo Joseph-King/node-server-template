@@ -1,0 +1,37 @@
+{
+  "name": "server-template",
+  "version": "1.0.0",
+  "description": "Template backend server built in Node",
+  "homepage": "https://github.com/Joseph-King/node-server-template#readme",
+  "bugs": {
+    "url": "https://github.com/Joseph-King/node-server-template/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joseph-King/node-server-template.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=dev nodemon index.js",
+    "elastic": "NODE_ENV=elastic nodemon index.js",
+    "opensearch": "NODE_ENV=opensearch nodemon index.js",
+    "mongo": "NODE_ENV=mongo nodemon index.js",
+    "postgres": "NODE_ENV=postgres nodemon index.js"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "mongoose": "^8.18.1",
+    "path": "^0.12.7",
+    "pg": "^8.16.3"
+  }
+}

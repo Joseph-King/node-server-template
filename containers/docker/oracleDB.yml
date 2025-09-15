@@ -1,0 +1,15 @@
+services:
+  oracle-db:
+    image: container-registry.oracle.com/database/express:21.3.0-xe
+    container_name: oracle-db
+    ports:
+      - "1521:1521"   # Oracle Listener
+      - "5500:5500"   # Enterprise Manager (optional)
+    environment:
+      - ORACLE_PASSWORD=MyPassw0rd!   # Sets password for SYS, SYSTEM, PDBADMIN
+    volumes:
+      - oracle-data:/opt/oracle/oradata # persist data
+
+volumes:
+  oracle-data:
+    driver: local
