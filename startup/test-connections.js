@@ -1,6 +1,6 @@
 const dbTest = require(`../database/${process.env.DB}/test`)
 
-module.exports = async function(){
+const testConnections = async function(){
     let result = {
         successfulConnections: [],
         failedConnections: []
@@ -25,3 +25,5 @@ module.exports = async function(){
 
     return result
 }
+
+module.exports = testConnections

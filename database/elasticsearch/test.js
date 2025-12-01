@@ -1,24 +1,20 @@
-const axios = require('axios')
+const getClient = require('./getClient')
 
-const headers = {
-    'Authorization': `Basic ${Buffer.from(`${process.env.DB_USER}:${process.env.DB_PASS}`).toString('base64')}`,
-    'Content-Type': 'application/json'
-}
-
-const testConnection = async function(){1
+const testConnection = async function(){
     return new Promise((resolve, reject) => {
-        let axiosData = {
-            headers: headers
+        const client = getClient()
+        if(client === undefined){
+            reject(new Error('ERROR. Client UNDEFINED'))
+            return
         }
 
-        axios.get(`${process.env.DB_URL}`, axiosData)
-            .then((resp) => {
-                resolve(`SUCCESS: Connected to DB: elasticsearch at ${process.env.DB_URL}`)
+        client.info()
+            .then(() => {
+                resolve('SUCCESS. Connected to ElasticSearch DB.')
             })
             .catch((err) => {
-                console.log(err);
-                resolve(`ERROR: Cannot connect to DB: elasticsearch at ${process.env.DB_URL}`)
-            });
+                reject(err)
+            })
     })
 }
 

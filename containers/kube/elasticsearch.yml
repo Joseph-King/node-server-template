@@ -1,0 +1,40 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-5.2.4
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-12-01T18:47:46Z"
+  labels:
+    app: elasticsearch-pod
+  name: elasticsearch-pod
+spec:
+  containers:
+  - args:
+    - eswrapper
+    env:
+    - name: discovery.type
+      value: single-node
+    - name: xpack.security.enabled
+      value: "true"
+    - name: ELASTIC_PASSWORD
+      value: elastic
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
+    name: elasticsearch
+    ports:
+    - containerPort: 9200
+      hostPort: 9200
+    securityContext: {}
+    volumeMounts:
+    - mountPath: /usr/share/elasticsearch/data
+      name: es-data-pvc
+  volumes:
+  - name: es-data-pvc
+    persistentVolumeClaim:
+      claimName: es-data

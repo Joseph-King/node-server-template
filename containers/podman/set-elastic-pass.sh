@@ -1,0 +1,1 @@
+podman exec -it elasticsearch /usr/share/elasticsearch/bin/elasticsearch-setup-passwords auto -b

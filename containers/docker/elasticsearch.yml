@@ -1,0 +1,22 @@
+services:
+  elasticsearch:
+    build: ./elastic
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=elastic
+    mem_limit: 2g
+    ports:
+      - "9200:9200"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD", "curl", "--user", "elastic:elastic", "http://localhost:9200"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  es-data:
+    driver: local

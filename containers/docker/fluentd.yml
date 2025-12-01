@@ -1,0 +1,16 @@
+services:
+  # Logging service. Works with both IMX and IMX Server. Stores data in elasticsearh.
+  fluentd:
+    build: ../config/fluentd
+    container_name: fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    links:
+      - "elasticsearch"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - '9880:9880'
+      - "24224:24224"
+      - "24224:24224/udp"

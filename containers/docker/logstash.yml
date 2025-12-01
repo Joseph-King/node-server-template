@@ -1,0 +1,15 @@
+services:
+  # Logging service that works with elasticsearch
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.15.2
+    container_name: logstash
+    links:
+      - "elasticsearch"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    volumes:
+      - ~/.podman/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ~/.podman/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+    ports:
+      - "5044:5044"

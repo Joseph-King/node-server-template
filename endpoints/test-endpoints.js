@@ -1,44 +1,46 @@
 const dbTest = require(`../database/${process.env.DB}/test`)
 
-module.exports = function(app, logger){
+const testEndpoints = function(app, logger){
 
     //Check if can reach Backend
     app.get('/test', async (req, res) => {
-        logger.logEndpoint(200, req, undefined);
+        logger.logEndpoint(200, req, undefined)
         
         res.send({
             "message": `${process.env.NODE_ENV} - You have successfully reached the Backend Server`,
             // "connection_status": process.env.CON_TEST ? process.env.CON_TEST : "n/a"
-        });
+        })
     })
 
     //Check if can reach Logger
     app.get('/test-logger', async (req, res) => {
-        logger.logEndpoint(200, req, undefined);
+        logger.logEndpoint(200, req, undefined)
         
-        let result = await logger.testConnection();
+        let result = await logger.testConnection()
 
-        res.send(result);
+        res.send(result)
     })
 
     //Check if can reach DB
     app.get('/test-db', async (req, res) => {
         logger.logEndpoint(200, req, undefined);
         
-        let result = await dbTest.testConnection();
+        let result = await dbTest.testConnection()
 
-        res.send(result);
+        res.send(result)
     })
 
     //Check if can reach API
     app.get('/test-api/:api', async (req, res) => {
         let api = req.params.api;
-        let currApi = require(`../api/${api}`);
+        let currApi = require(`../api/${api}`)
 
-        logger.logEndpoint(200, req, undefined);
+        logger.logEndpoint(200, req, undefined)
         
-        let result = await currApi.testConnection();
+        let result = await currApi.testConnection()
 
-        res.send(result);
+        res.send(result)
     })
 }
+
+module.exports = testEndpoints

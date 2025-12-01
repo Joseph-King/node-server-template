@@ -12,16 +12,18 @@ podman run -d --pod elk --name elasticsearch \
     --health-interval 10s \
     --health-retries 10 \
     -e ELASTIC_PASSWORD=elastic \
-    docker.elastic.co/elasticsearch/elasticsearch:latest
+    -e discovery.type=single-node \
+    -e xpack.security.enabled=true \
+    -e KIBANA_SYSTEM_PASSWORD=kibana \
+    docker.elastic.co/elasticsearch/elasticsearch:8.15.2
 
 podman run -d --pod elk --name kibana \
     --requires elasticsearch \
+    -e ELASTICSEARCH_HOSTS=http://elasticsearch:9200 \
     -e ELASTICSEARCH_PASSWORD=kibana \
-    -e ELASTICSEARCH_USERNAME=kibana_user \
+    -e ELASTICSEARCH_USERNAME=kibana_system \
     docker.elastic.co/kibana/kibana:8.15.2
 
 podman run -d --pod elk --name logstash \
     --requires elasticsearch \
-    -v ~/.podman/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:z \
-    -v ~/.podman/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:z \
     docker.elastic.co/logstash/logstash:8.15.2

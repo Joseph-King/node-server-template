@@ -7,7 +7,7 @@ const testConnection = async function(){
             resolve(`SUCCESS: Connected to DB: ${process.env.DB} at ${process.env.DB_URL}`)
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             resolve(`ERROR: Cannot connect to DB: ${process.env.DB} at ${process.env.DB_URL}`)
         })
     })
