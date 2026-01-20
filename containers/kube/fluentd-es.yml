@@ -1,0 +1,37 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-5.2.4
+#
+# Due to the nature of setting up auth with elasticsearch this will exist in a separate pod,
+# even though if you were to actually use this you would want them in the same pod...
+#
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-12-01T19:11:42Z"
+  labels:
+    app: fluentd-pod
+  name: fluentd-pod
+spec:
+  containers:
+  - args:
+    - fluentd
+    image: localhost/fluentd:latest
+    name: fluentd
+    ports:
+    - containerPort: 9800
+      hostPort: 9880
+    securityContext: {}
+    volumeMounts:
+    - mountPath: /fluentd/etc
+      name: Users-analyst-Code-node-server-template-containers-config-fluentd-conf-host-0
+  volumes:
+  - hostPath:
+      path: /Users/analyst/Code/node-server-template/containers/config/fluentd/conf
+      type: Directory
+    name: Users-analyst-Code-node-server-template-containers-config-fluentd-conf-host-0

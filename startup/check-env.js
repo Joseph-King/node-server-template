@@ -43,8 +43,11 @@ const checkDB = function(){
             case 'opensearch':
                 checkBasicAuthReq('DB')
                 break
+            case 'dynamo':
+                checkDDB()
+                break
             case 'elasticsearch':
-                checkSearchDB()
+                checkESDB()
                 break
             default:
                 terminateServer(`ERROR. ${process.env.DB} is not a valid value of environment variable "DB"`)
@@ -61,12 +64,29 @@ const checkUrlDB = function(){
     terminateServer(`ERROR. DB of type "${process.env.DB}" requires the environment variable DB_URL.`)
 }
 
-const checkSearchDB = function(){
+const checkDDB = function(){
+    if(process.env.DB_AUTH){
+        if(process.env.DB_AUTH === 'local'){
+            checkUrlDB()
+        } else if(process.env.DB_AUTH === 'cloud'){
+            let reqFields = ['_URL', '_KEY', '_SECRET']
+
+            checkApiKeyReq('DB', reqFields)
+        } else {
+            terminateServer(`ERROR. ${process.env.DB_AUTH} is not a valid value of environment variable "DB_AUTH"`)
+        }
+    } else {
+        terminateServer(`ERROR. DB of type "${process.env.DB}" requires the environment variable DB_AUTH.`)
+    }
+}
+
+const checkESDB = function(){
     if(process.env.DB_AUTH){
         if(process.env.DB_AUTH === 'basic'){
             checkBasicAuthReq('DB')
         } else if(process.env.DB_AUTH === 'apiKey'){
-            checkApiKeyReq('DB')
+            let reqFields = ['_URL', '_KEY']
+            checkApiKeyReq('DB', reqFields)
         } else {
             terminateServer(`ERROR. ${process.env.DB_AUTH} is not a valid value of environment variable "DB_AUTH"`)
         }
@@ -87,15 +107,13 @@ const checkBasicAuthReq = function(prefix){
     }
 }
 
-const checkApiKeyReq = function(prefix){
-    let reqFields = ['_URL', '_KEY']
-
+const checkApiKeyReq = function(prefix, reqFields){
     for(let field of reqFields){
         let string = `${prefix}${field}`
 
         if(process.env[string]) continue
 
-        terminateServer(`ERROR. ${prefix} with Basic Auth requires environment variable ${string}`)
+        terminateServer(`ERROR. ${prefix} requires environment variable ${string}`)
     }
 }
 

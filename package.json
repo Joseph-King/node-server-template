@@ -17,6 +17,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=dev nodemon index.js",
+    "dynamo-local": "NODE_ENV=dynamo-local nodemon index.js",
     "elastic": "NODE_ENV=elastic nodemon index.js",
     "empty": "nodemon index.js",
     "maria": "NODE_ENV=mariaDB nodemon index.js",
@@ -33,6 +34,7 @@
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
+    "dynamoose": "^4.0.4",
     "express": "^5.1.0",
     "fs": "^0.0.1-security",
     "https": "^1.0.0",
