@@ -15,7 +15,7 @@ try {
     console.log('ERROR: Could not use environment file.')
 }
 try {
-    const checkEnv = require('./startup/check-env')
+    const checkEnv = require('./controllers/startup/check-env')
     checkEnv()
 } catch(err) {
     console.error(err)
@@ -56,7 +56,7 @@ try {
 //Database
 try {
     if(process.env.DB){
-        require(`./database/${process.env.DB}/test`)
+        require(`./controllers/database/${process.env.DB}/test`)
         console.log(`SUCCESS: Database set to ${process.env.DB}.`)
     } else {
         process.env.DB = 'none'
@@ -68,18 +68,18 @@ try {
 }
 
 //Logging
-let logger = require(`./logging/none`)
+let logger = require(`./controllers/logging/none`)
 try {
-	logger = require(`./logging/${process.env.LOGGER}`)
+	logger = require(`./controllers/logging/${process.env.LOGGER}`)
 	console.log(`SUCCESS: Logger set to ${process.env.LOGGER}`)
 } catch(err){
     console.error(err)
 	console.log(`ERROR. Cannot set LOGGER to target ${process.env.LOGGER}`)
-	logger = require(`./logging/none`)
+	logger = require(`./controllers/logging/none`)
 }
 
-//Endpoints
-const testEndpoints = require('./endpoints/test-endpoints')(app, logger)
+//Routes
+const testRoutes = require('./routes/test-routes')(app, logger)
 
 //Serving Backend
 try {
@@ -115,7 +115,7 @@ try {
 
 //STARTUP SCRIPTS
 try {
-    const startup = require('./startup/start')
+    const startup = require('./controllers/startup/start')
     if(process.env.STARTUP === 'enabled'){
         setTimeout(() => {
             startup.entry()

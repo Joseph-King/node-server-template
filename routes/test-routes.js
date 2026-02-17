@@ -1,4 +1,4 @@
-const dbTest = require(`../database/${process.env.DB}/test`)
+const dbTest = require(`../controllers/database/${process.env.DB}/test`)
 
 const testEndpoints = function(app, logger){
 
