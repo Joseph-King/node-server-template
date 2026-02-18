@@ -68,7 +68,7 @@ try {
 }
 
 //Logging
-let logger = require(`./controllers/logging/none`)
+let logger
 try {
 	logger = require(`./controllers/logging/${process.env.LOGGER}`)
 	console.log(`SUCCESS: Logger set to ${process.env.LOGGER}`)
@@ -79,7 +79,7 @@ try {
 }
 
 //Routes
-const testRoutes = require('./routes/test-routes')(app, logger)
+require('./routes/test-routes')(app, logger)
 
 //Serving Backend
 try {
