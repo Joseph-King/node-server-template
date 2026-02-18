@@ -38,13 +38,14 @@ const checkDB = function(){
                 break
             case 'sql':
             case 'mongo':
+            case 'sqlite':
                 checkUrlDB()
                 break
             case 'opensearch':
                 checkBasicAuthReq('DB')
                 break
             case 'dynamo':
-                checkDDB()
+                checkDynamoDB()
                 break
             case 'elasticsearch':
                 checkESDB()
@@ -64,7 +65,7 @@ const checkUrlDB = function(){
     terminateServer(`ERROR. DB of type "${process.env.DB}" requires the environment variable DB_URL.`)
 }
 
-const checkDDB = function(){
+const checkDynamoDB = function(){
     if(process.env.DB_AUTH){
         if(process.env.DB_AUTH === 'local'){
             checkUrlDB()
