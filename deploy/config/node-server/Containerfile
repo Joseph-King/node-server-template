@@ -1,0 +1,17 @@
+FROM alpine:latest
+
+RUN apk update
+RUN apk upgrade
+
+RUN apk add curl
+RUN apk add nodejs-lts
+RUN apk add npm
+
+WORKDIR /node-server
+COPY ./ .
+RUN npm install
+
+RUN mkdir sqlite
+RUN chgrp -R 0 ./sqlite && chmod -R g=u ./sqlite
+
+CMD [ "node", "index.js" ]
